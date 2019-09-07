@@ -7,12 +7,12 @@
 }
 
 body {
-    background-color: #07091A;
+    background-color: #1C2826;
     font-family: 'Nunito', sans-serif;
 }
 
 .calculator {
-    background-color: #F9F7FA;
+    background-color: #FFF9FB;
     width: 375px;
     height: 550px;
     position: fixed;
@@ -20,7 +20,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 8px;
-    padding: 2rem 2rem 0;
+    padding: 1rem 1rem 0;
 }
 
 .screen {
@@ -35,6 +35,7 @@ body {
     right: 0;
     font-size: 2.8rem;
     font-weight: 600;
+    margin-right: 1rem;
 }
 
 #stage {
@@ -43,7 +44,9 @@ body {
     right: 0;
     font-size: 1rem;
     font-weight: 700;
-    opacity: 0.6;
+    opacity: 0.5;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
 .buttons {
@@ -55,8 +58,12 @@ body {
 .grid_button {
     height: 60px;
     width: 60px; 
-    border: 1px solid #191919;
+    background-color: #D3D4D9;
+    color: #1C2826;
     border-radius: 50%;
     display: inline-block;
     margin: auto;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
 }
