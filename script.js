@@ -1,7 +1,7 @@
 // Buttons div
 let buttons_div = document.querySelector('.buttons');
 
-const getGrid = (width = 4, height = 5) => {
+const getGrid = (width, height) => {
     let numCells = width * height;
     for (let i = 0; i < numCells; i++) {
         let grid_button = document.createElement('div');
@@ -10,7 +10,7 @@ const getGrid = (width = 4, height = 5) => {
     }
     buttons_div.setAttribute('style', `grid-template-rows: repeat(${height}, 1fr); grid-template-columns: repeat(${width}, 1fr);`);
 }
-getGrid();
+getGrid(4, 5);
 
 // Button selectors
 let exponent_button = document.querySelector('.button_0');
