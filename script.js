@@ -12,6 +12,7 @@ const getGrid = (width = 4, height = 5) => {
 }
 getGrid();
 
+// Button selectors
 let exponent_button = document.querySelector('.button_0');
 let sqrt_button = document.querySelector('.button_1');
 let clearAll_button = document.querySelector('.button_2');
@@ -33,34 +34,34 @@ let dot_button = document.querySelector('.button_17');
 let equals_button = document.querySelector('.button_18');
 let plus_button = document.querySelector('.button_19');
 
+// Styling and text content of the buttons
 exponent_button.textContent = '𝒙';
-exponent_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
 sqrt_button.textContent = '√𝒙';
-sqrt_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
 clearAll_button.textContent = 'C';
-clearAll_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
 clear_button.textContent = 'CE';
-clear_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
 seven_button.textContent = '7';
 eight_button.textContent = '8';
 nine_button.textContent = '9';
 divide_button.textContent = '/';
-divide_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
 four_button.textContent = '4';
 five_button.textContent = '5';
 six_button.textContent = '6';
 multiply_button.textContent = '*';
-multiply_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
 one_button.textContent = '1';
 two_button.textContent = '2';
 three_button.textContent = '3';
 minus_button.textContent = '-';
-minus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
 zero_button.textContent = '0';
 dot_button.textContent = '.';
 equals_button.textContent = '=';
-equals_button.setAttribute('style', 'background-color: #4B88A2; color: #FFF9FB');
 plus_button.textContent = '+';
+
+exponent_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+sqrt_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+clearAll_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
+clear_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
+divide_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+multiply_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+minus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+equals_button.setAttribute('style', 'background-color: #4B88A2; color: #FFF9FB');
 plus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB'); 
-
-
