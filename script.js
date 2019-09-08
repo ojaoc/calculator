@@ -1,5 +1,21 @@
 // Buttons div
 let buttons_div = document.querySelector('.buttons');
+// The Array below will hold the values inserted
+let value = null; 
+// Display Value
+let result_p = document.getElementById('result');
+const result = str => {
+    if (value === null) result_p.removeChild(result_p.lastChild);
+    result_p.appendChild(document.createTextNode(str));
+    value += parseInt(str);
+    return value;
+}
+
+// Stage Value
+let stage_p = document.getElementById('stage');
+const stage = str => {
+    stage_p.appendChild(document.createTextNode(str));
+}
 
 const getGrid = (width, height) => {
     let numCells = width * height;
@@ -12,56 +28,119 @@ const getGrid = (width, height) => {
 }
 getGrid(4, 5);
 
-// Button selectors
-let exponent_button = document.querySelector('.button_0');
-let sqrt_button = document.querySelector('.button_1');
-let clearAll_button = document.querySelector('.button_2');
-let clear_button = document.querySelector('.button_3');
-let seven_button = document.querySelector('.button_4');
-let eight_button = document.querySelector('.button_5');
-let nine_button = document.querySelector('.button_6');
-let divide_button = document.querySelector('.button_7');
-let four_button = document.querySelector('.button_8');
-let five_button = document.querySelector('.button_9');
-let six_button = document.querySelector('.button_10');
-let multiply_button = document.querySelector('.button_11');
-let one_button = document.querySelector('.button_12');
-let two_button = document.querySelector('.button_13');
-let three_button = document.querySelector('.button_14');
-let minus_button = document.querySelector('.button_15');
+// Number 0
 let zero_button = document.querySelector('.button_16');
-let dot_button = document.querySelector('.button_17');
-let equals_button = document.querySelector('.button_18');
-let plus_button = document.querySelector('.button_19');
-
-// Styling and text content of the buttons
-exponent_button.textContent = '𝒙';
-sqrt_button.textContent = '√𝒙';
-clearAll_button.textContent = 'C';
-clear_button.textContent = 'CE';
-seven_button.textContent = '7';
-eight_button.textContent = '8';
-nine_button.textContent = '9';
-divide_button.textContent = '/';
-four_button.textContent = '4';
-five_button.textContent = '5';
-six_button.textContent = '6';
-multiply_button.textContent = '*';
-one_button.textContent = '1';
-two_button.textContent = '2';
-three_button.textContent = '3';
-minus_button.textContent = '-';
 zero_button.textContent = '0';
-dot_button.textContent = '.';
-equals_button.textContent = '=';
-plus_button.textContent = '+';
+zero_button.addEventListener('click', () => result(0));
 
+// Number 1
+let one_button = document.querySelector('.button_12');
+one_button.textContent = '1';
+one_button.addEventListener('click', () => result(1));
+
+// Number 2
+let two_button = document.querySelector('.button_13');
+two_button.textContent = '2';
+two_button.addEventListener('click', () => result(2));
+
+// Number 3
+let three_button = document.querySelector('.button_14');
+three_button.textContent = '3';
+three_button.addEventListener('click', () => result(3));
+
+// Number 4
+let four_button = document.querySelector('.button_8');
+four_button.textContent = '4';
+four_button.addEventListener('click', () => result(4));
+
+// Number 5
+let five_button = document.querySelector('.button_9');
+five_button.textContent = '5';
+five_button.addEventListener('click', () => result(5));
+
+// Number 6
+let six_button = document.querySelector('.button_10');
+six_button.textContent = '6';
+six_button.addEventListener('click', () => result(6));
+
+// Number 7
+let seven_button = document.querySelector('.button_4');
+seven_button.textContent = '7';
+seven_button.addEventListener('click', () => result(7));
+
+// Number 8
+let eight_button = document.querySelector('.button_5');
+eight_button.textContent = '8';
+eight_button.addEventListener('click', () => result(8));
+
+// Number 9
+let nine_button = document.querySelector('.button_6');
+nine_button.textContent = '9';
+nine_button.addEventListener('click', () => result(9));
+
+// Exponent
+let exponent_button = document.querySelector('.button_0');
+exponent_button.textContent = '𝒙';
 exponent_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+// exponent_button.addEventListener('click', () => stage(`${}`));
+
+// Square root
+let sqrt_button = document.querySelector('.button_1');
+sqrt_button.textContent = '√𝒙';
 sqrt_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+
+// Clear All
+let clearAll_button = document.querySelector('.button_2');
+clearAll_button.textContent = 'C';
 clearAll_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
+clearAll_button.addEventListener('click', () => {
+    while (result_p.childNodes.length > 1) {
+        result_p.removeChild(result_p.lastChild);
+    }
+    result_p.removeChild(result_p.lastChild);
+    result_p.appendChild(document.createTextNode('0'));
+    return value = null;
+});
+
+// Clear
+let clear_button = document.querySelector('.button_3');
+clear_button.textContent = 'CE';
 clear_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
+clear_button.addEventListener('click', () => {
+    if (result_p.childNodes.length > 1) {
+        return result_p.removeChild(result_p.lastChild);
+    } else {
+        result_p.removeChild(result_p.lastChild);
+        result_p.appendChild(document.createTextNode('0'));
+        return value = null;
+    }
+});
+
+// Divide
+let divide_button = document.querySelector('.button_7');
+divide_button.textContent = '/';
 divide_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+
+// Multiply
+let multiply_button = document.querySelector('.button_11');
+multiply_button.textContent = '*';
 multiply_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+
+// Minus
+let minus_button = document.querySelector('.button_15');
+minus_button.textContent = '-';
 minus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
-equals_button.setAttribute('style', 'background-color: #4B88A2; color: #FFF9FB');
+
+// Plus
+let plus_button = document.querySelector('.button_19');
+plus_button.textContent = '+';
 plus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB'); 
+
+// Dot Button
+let dot_button = document.querySelector('.button_17');
+dot_button.textContent = '.';
+
+// Equals
+let equals_button = document.querySelector('.button_18');
+equals_button.textContent = '=';
+equals_button.setAttribute('style', 'background-color: #4B88A2; color: #FFF9FB');
