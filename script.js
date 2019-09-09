@@ -102,13 +102,13 @@ nine_button.addEventListener('click', () => result('9'));
 let exponent_button = document.querySelector('.button_0');
 exponent_button.textContent = '𝒙^';
 exponent_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
-exponent_button.addEventListener('click', () => stage(`^`));
+exponent_button.addEventListener('click', () => stage('^'));
 
 // Square root
 let sqrt_button = document.querySelector('.button_1');
 sqrt_button.textContent = '√𝒙';
 sqrt_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
-sqrt_button.addEventListener('click', () => stage(`sqrt()`));
+sqrt_button.addEventListener('click', () => stage('√'));
 
 // Clear All
 let clearAll_button = document.querySelector('.button_2');
@@ -132,7 +132,8 @@ clear_button.textContent = 'CE';
 clear_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
 clear_button.addEventListener('click', () => {
     if (result_p.childNodes.length > 1) {
-        return result_p.removeChild(result_p.lastChild);
+        result_p.removeChild(result_p.lastChild);
+        value = value.slice(0, value.length-1);
     } else {
         result_p.removeChild(result_p.lastChild);
         result_p.appendChild(document.createTextNode('0'));
@@ -144,25 +145,30 @@ clear_button.addEventListener('click', () => {
 let divide_button = document.querySelector('.button_7');
 divide_button.textContent = '/';
 divide_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+divide_button.addEventListener('click', () => stage('/'));
 
 // Multiply
 let multiply_button = document.querySelector('.button_11');
 multiply_button.textContent = '*';
 multiply_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+multiply_button.addEventListener('click', () => stage('*'));
 
 // Minus
 let minus_button = document.querySelector('.button_15');
 minus_button.textContent = '-';
 minus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+minus_button.addEventListener('click', () => stage('-'));
 
 // Plus
 let plus_button = document.querySelector('.button_19');
 plus_button.textContent = '+';
 plus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB'); 
+plus_button.addEventListener('click', () => stage('+'));
 
 // Dot Button
 let dot_button = document.querySelector('.button_17');
 dot_button.textContent = '.';
+dot_button.addEventListener('click', () => result('.'));
 
 // Equals
 let equals_button = document.querySelector('.button_18');
