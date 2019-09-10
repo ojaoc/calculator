@@ -4,12 +4,14 @@ let buttons_div = document.querySelector('.buttons');
 let values = []; 
 // Check operation click
 let operation = null;
-// Function to eliminate author name 
+// Variable exists to eliminate author name 
 let first = true;
+// Variable to determine the operator
+let operator = null;
 // Display Value
 let result_p = document.getElementById('result');
 const result = str => {
-    if (values.length === 0 || operation) result_p.removeChild(result_p.lastChild);
+    if (values.length === 0 || operation || operator === null) result_p.removeChild(result_p.lastChild);
     result_p.appendChild(document.createTextNode(str));
     values.push(str);
     if (values.length >= 2 && operation !== true) {
@@ -22,23 +24,24 @@ const result = str => {
 
 // Stage Value
 let stage_p = document.getElementById('stage');
-const stage = operator => {
+const stage = symb => {
     if (operation) return;
     if (first === true) {
         stage_p.removeChild(stage_p.lastChild);
         first = false;
     }
     if (values.length === 0) {
-        stage_p.appendChild(document.createTextNode('0' + operator));
+        stage_p.appendChild(document.createTextNode('0' + symb));
         values.push('0');
     } else {
-        stage_p.appendChild(document.createTextNode(values[values.length-1] + operator));
+        stage_p.appendChild(document.createTextNode(values[values.length-1] + symb));
     }
     while (result_p.childNodes.length > 1) {
         result_p.removeChild(result_p.lastChild);
     }
     result_p.removeChild(result_p.lastChild);
-    result_p.appendChild(document.createTextNode('0')); 
+    result_p.appendChild(document.createTextNode('0'));
+    operator = symb; 
     operation = true;
 }
 
@@ -52,6 +55,48 @@ const getGrid = (width, height) => {
     buttons_div.setAttribute('style', `grid-template-rows: repeat(${height}, 1fr); grid-template-columns: repeat(${width}, 1fr);`);
 }
 getGrid(4, 5);
+
+// Calculation functions
+const add = (...int) => {
+    const toInt = int.map((value) => {
+        return parseInt(value);
+    });
+    return toInt.reduce((x, y) => x + y);
+}
+
+const subtract = (...int) => {
+    const toInt = int.map((value) => {
+        return parseInt(value);
+    });
+    return toInt.reduce((x, y) => x - y);
+}
+
+const multiply = (...int) => {
+    const toInt = int.map((value) => {
+        return parseInt(value);
+    });
+    return toInt.reduce((x, y) => x * y);
+}
+
+const divide = (...int) => {
+    const toInt = int.map((value) => {
+        return parseInt(value);
+    });
+    return toInt.reduce((x, y) => x / y);
+}
+
+const operate = (operator, ...num) => {
+    switch (operator) {
+        case '+':
+            return result(add(...num));
+        case '-':
+            return result(subtract(...num));
+        case '*':
+            return result(multiply(...num));
+        case '/':
+            return result(divide(...num));
+    }
+}
 
 // Number 0
 let zero_button = document.querySelector('.button_16');
@@ -187,47 +232,17 @@ let equals_button = document.querySelector('.button_18');
 equals_button.textContent = '=';
 equals_button.setAttribute('style', 'background-color: #4B88A2; color: #FFF9FB');
 equals_button.addEventListener('click', () => {
-    result(operate(operator, values));
-});
-
-// Calculation functions
-const add = (...int) => {
-    const toInt = int.map((value) => {
-        return parseInt(value);
-    });
-    return toInt.reduce((x, y) => x + y);
-}
-
-const subtract = (...int) => {
-    const toInt = int.map((value) => {
-        return parseInt(value);
-    });
-    return toInt.reduce((x, y) => x - y);
-}
-
-const multiply = (...int) => {
-    const toInt = int.map((value) => {
-        return parseInt(value);
-    });
-    return toInt.reduce((x, y) => x * y);
-}
-
-const divide = (...int) => {
-    const toInt = int.map((value) => {
-        return parseInt(value);
-    });
-    return toInt.reduce((x, y) => x / y);
-}
-
-const operate = (operator, ...num) => {
-    switch (operator) {
-        case '+':
-            return add(...num);
-        case '-':
-            return subtract(...num);
-        case '*':
-            return multiply(...num);
-        case '/':
-            return divide(...num); 
+    while (result_p.childNodes.length > 1) {
+        result_p.removeChild(result_p.lastChild);
+    } 
+    while (stage_p.childNodes.length > 0) {
+        stage_p.removeChild(stage_p.lastChild);
     }
-}
+    result_p.removeChild(result_p.lastChild);
+    stage_p.appendChild(document.createTextNode('Calculator by ojaoc'));
+    operate(operator, ...values);
+    operator = null;
+    operation = null;
+    first = true;
+    values = [];
+});
