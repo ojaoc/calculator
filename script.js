@@ -11,7 +11,7 @@ let operator = null;
 // Display Value
 let result_p = document.getElementById('result');
 const result = str => {
-    if (values.length === 0 || operation || operator === null) result_p.removeChild(result_p.lastChild);
+    if ((values.length === 0 && operator === null) || operation) result_p.removeChild(result_p.lastChild);
     result_p.appendChild(document.createTextNode(str));
     values.push(str);
     if (values.length >= 2 && operation !== true) {
