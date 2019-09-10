@@ -1,33 +1,38 @@
 // Buttons div
 let buttons_div = document.querySelector('.buttons');
 // The Array below will hold the values inserted
-let value = null; 
+let values = []; 
 // Check operation click
 let operation = null;
+// Function to eliminate author name 
+let first = true;
 // Display Value
 let result_p = document.getElementById('result');
 const result = str => {
-    if (value === null || operation) result_p.removeChild(result_p.lastChild);
+    if (values.length === 0 || operation) result_p.removeChild(result_p.lastChild);
     result_p.appendChild(document.createTextNode(str));
-    for (let i = 0; i < str.length; i++) {
-        if (value === null) value = str.charAt(i);
-        else value += str.charAt(i);
+    values.push(str);
+    if (values.length >= 2 && operation !== true) {
+        values[values.length-2] += values[values.length-1];
+        values.pop();
     }
-    operation = null;
-    return value;
+    operation = false;
+    return values;
 }
 
 // Stage Value
 let stage_p = document.getElementById('stage');
 const stage = operator => {
     if (operation) return;
-    stage_p.removeChild(stage_p.lastChild);
-    if (value === null) {
+    if (first === true) {
+        stage_p.removeChild(stage_p.lastChild);
+        first = false;
+    }
+    if (values.length === 0) {
         stage_p.appendChild(document.createTextNode('0' + operator));
-        value = '0' + operator;
+        values.push('0');
     } else {
-        stage_p.appendChild(document.createTextNode(value + operator));
-        value += operator;
+        stage_p.appendChild(document.createTextNode(values[values.length-1] + operator));
     }
     while (result_p.childNodes.length > 1) {
         result_p.removeChild(result_p.lastChild);
@@ -118,12 +123,15 @@ clearAll_button.addEventListener('click', () => {
     while (result_p.childNodes.length > 1) {
         result_p.removeChild(result_p.lastChild);
     } 
+    while (stage_p.childNodes.length > 0) {
+        stage_p.removeChild(stage_p.lastChild);
+    }
     result_p.removeChild(result_p.lastChild);
     result_p.appendChild(document.createTextNode('0'));
-    stage_p.removeChild(stage_p.lastChild);
     stage_p.appendChild(document.createTextNode('Calculator by ojaoc'));
     operation = null;
-    return value = null;
+    first = true;
+    return values = [];
 });
 
 // Clear
@@ -133,11 +141,15 @@ clear_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
 clear_button.addEventListener('click', () => {
     if (result_p.childNodes.length > 1) {
         result_p.removeChild(result_p.lastChild);
-        value = value.slice(0, value.length-1);
     } else {
         result_p.removeChild(result_p.lastChild);
         result_p.appendChild(document.createTextNode('0'));
-        return value = null;
+    }
+    let valueToStr = values[values.length-1].toString();
+    if (valueToStr.length < 2) {
+        return values.pop();  
+    } else {
+        return values[values.length-1] = valueToStr.slice(0, -1);
     }
 });
 
@@ -174,3 +186,48 @@ dot_button.addEventListener('click', () => result('.'));
 let equals_button = document.querySelector('.button_18');
 equals_button.textContent = '=';
 equals_button.setAttribute('style', 'background-color: #4B88A2; color: #FFF9FB');
+equals_button.addEventListener('click', () => {
+    result(operate(operator, values));
+});
+
+// Calculation functions
+const add = (...int) => {
+    const toInt = int.map((value) => {
+        return parseInt(value);
+    });
+    return toInt.reduce((x, y) => x + y);
+}
+
+const subtract = (...int) => {
+    const toInt = int.map((value) => {
+        return parseInt(value);
+    });
+    return toInt.reduce((x, y) => x - y);
+}
+
+const multiply = (...int) => {
+    const toInt = int.map((value) => {
+        return parseInt(value);
+    });
+    return toInt.reduce((x, y) => x * y);
+}
+
+const divide = (...int) => {
+    const toInt = int.map((value) => {
+        return parseInt(value);
+    });
+    return toInt.reduce((x, y) => x / y);
+}
+
+const operate = (operator, ...num) => {
+    switch (operator) {
+        case '+':
+            return add(...num);
+        case '-':
+            return subtract(...num);
+        case '*':
+            return multiply(...num);
+        case '/':
+            return divide(...num); 
+    }
+}
