@@ -41,7 +41,26 @@ const stage = symb => {
     }
     result_p.removeChild(result_p.lastChild);
     result_p.appendChild(document.createTextNode('0'));
-    operator = symb; 
+    if (operator === null) operator = symb;
+    else if (operator != symb) {
+        switch (operator + symb) {
+        case '+-':
+        case '-+':
+        case '*+':
+        case '*-':
+        case '*/': 
+        case '/+':  
+        case '/-':
+        case '/*':
+              
+
+        case '+*':
+        case '+/':
+        case '-*':
+        case '-/':
+
+        }
+    }
     operation = true;
 }
 
