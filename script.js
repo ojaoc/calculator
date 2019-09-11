@@ -8,6 +8,7 @@ let operation = null;
 let first = true;
 // Variable to determine the operator
 let operator = null;
+let changedOperator = null;
 // Display Value
 let result_p = document.getElementById('result');
 const result = str => {
@@ -17,6 +18,27 @@ const result = str => {
     if (values.length >= 2 && operation !== true) {
         values[values.length-2] += values[values.length-1];
         values.pop();
+    }
+    if (changedOperator !== null) {
+        switch (operator + changedOperator) {
+            case '*+':
+            case '*-':
+                
+            case '/+':  
+            case '/-':
+                        
+            case '+*':
+            case '-*':
+                values.push(multiply(values.splice(-Math.abs(values.length-1), values.length-1)));
+            case '-/':
+            case '+/':
+                values.push(divide(values.splice(-Math.abs(values.length-1), values.length-1)));
+            case '/*':
+            case '*/':                 
+            case '+-':
+            case '-+':
+                break;
+        }      
     }
     operation = false;
     return values;
@@ -41,25 +63,10 @@ const stage = symb => {
     }
     result_p.removeChild(result_p.lastChild);
     result_p.appendChild(document.createTextNode('0'));
-    if (operator === null) operator = symb;
-    else if (operator != symb) {
-        switch (operator + symb) {
-        case '+-':
-        case '-+':
-        case '*+':
-        case '*-':
-        case '*/': 
-        case '/+':  
-        case '/-':
-        case '/*':
-              
-
-        case '+*':
-        case '+/':
-        case '-*':
-        case '-/':
-
-        }
+    if (operator === null) {
+        operator = symb;
+    } else if (operator != symb) {
+        changedOperator = symb;
     }
     operation = true;
 }
@@ -195,6 +202,7 @@ clearAll_button.addEventListener('click', () => {
     stage_p.appendChild(document.createTextNode('Calculator by ojaoc'));
     operation = null;
     first = true;
+    changedOperator = null;
     return values = [];
 });
 
