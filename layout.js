@@ -140,16 +140,19 @@ function pressOperator(e) {
 function returnResult() {
     const regexOperators = /[+*/-]/g;
     const regexNumbers = /[-.0-9]+/g;
+    let calcResult = null;
     expression.push(stage_p.textContent + result_p.textContent);
     let splitExp = expression.toString().split(regexOperators);
     for (let i = 0; i < splitExp.length; i++) {
         if (splitExp.includes('*') || splitExp.includes('/')) {
             switch (splitExp[i]) {
                 case '*':
-                    splitExp.splice(i-1, 3, multiply(splitExp[i-1], splitExp[i+1]));
+                    calcResult = multiply(splitExp[i-1], splitExp[i+1]);
+                    splitExp.splice(i-1, 3, calcResult);
                     break;
                 case '/':
-                    splitExp.splice(i-1, 3, divide(splitExp[i-1], splitExp[i+1]));
+                    calcResult = divide(splitExp[i-1], splitExp[i+1]);
+                    splitExp.splice(i-1, 3, calcResult);
                     break;
             }
         }  
