@@ -94,20 +94,7 @@ clearAll_button.addEventListener('click', () => {
     changedOperator = null;
     return values = [];
 });
-clear_button.addEventListener('click', () => {
-    if (result_p.childNodes.length > 1) {
-        result_p.removeChild(result_p.lastChild);
-    } else {
-        result_p.removeChild(result_p.lastChild);
-        result_p.appendChild(document.createTextNode('0'));
-    }
-    let valueToStr = values[values.length-1].toString();
-    if (valueToStr.length < 2) {
-        return values.pop();  
-    } else {
-        return values[values.length-1] = valueToStr.slice(0, -1);
-    }
-});
+clear_button.addEventListener('click', () => clear());
 divide_button.addEventListener('click', (e) => pressOperator(e));
 multiply_button.addEventListener('click', (e) => pressOperator(e));
 minus_button.addEventListener('click', (e) => pressOperator(e));
@@ -122,8 +109,10 @@ let stage = false; // initial 0 and text as you press
 let firstTime = true; // numbers or operators
 let expression = []; 
 function pressNumber(e) {
+    if (e.target.textContent === '.' && /[.]/g.test(result_p.textContent)) return; // This makes it so you can only digit one dot per number
     if (result < 1 || stage) result_p.removeChild(result_p.lastChild);
     result_p.textContent += e.target.textContent;
+    expression.push(e.target.textContent);
     result++;
     stage = false;
 }
@@ -133,43 +122,76 @@ function pressOperator(e) {
     if (firstTime) stage_p.removeChild(stage_p.lastChild);
     stage_p.textContent += result_p.textContent + e.target.textContent;
     result_p.textContent = '0';
+    expression.push(e.target.textContent);
     stage = true;
     firstTime = false;
 }
 
 function returnResult() {
-    const regexOperators = /[+*/-]/g;
+    const regex = /[.0-9]+|[+*/-]/g;
     // const regexNumbers = /[-.0-9]+/g;
     let calcResult = null;
-    expression.push(stage_p.textContent + result_p.textContent);
-    let splitExp = expression.toString().split(regexOperators);
-    // for (let i = 0; i < splitExp.length; i++) {
-    //     if (splitExp.includes('*') || splitExp.includes('/')) {
-    //         switch (splitExp[i]) {
-    //             case '*':
-    //                 calcResult = multiply(splitExp[i-1], splitExp[i+1]);
-    //                 splitExp.splice(i-1, 3, calcResult);
-    //                 return;
-    //             case '/':
-    //                 calcResult = divide(splitExp[i-1], splitExp[i+1]);
-    //                 splitExp.splice(i-1, 3, calcResult);
-    //                 return;
-    //         }
-    //     } else break;
-    // }
-    // for (let i = 0; i < splitExp.length; i++) {
-    //     switch (splitExp[i]) {
-    //         case '+':
-    //             calcResult = add(splitExp[i-1], splitExp[i+1]);
-    //             splitExp.splice(i-1, 3, calcResult);
-    //             return;
-    //         case '-':
-    //             calcResult = subtract(splitExp[i-1], splitExp[i+1]);
-    //             splitExp.splice(i-1, 3, calcResult);
-    //             return;
-    //     }
-    // }
+    let splitExp = expression.join('').match(regex);
     console.log(splitExp);
+    for (let i = 0; i < splitExp.length; i++) {
+        if (splitExp.includes('*') || splitExp.includes('/')) {
+            switch (splitExp[i]) {
+                case '*':
+                    calcResult = multiply(splitExp[i-1], splitExp[i+1]);
+                    splitExp.splice(i-1, 3, calcResult);
+                    i--;
+                    console.log(splitExp);
+                    break;
+                case '/':
+                    calcResult = divide(splitExp[i-1], splitExp[i+1]);
+                    splitExp.splice(i-1, 3, calcResult);
+                    i--;
+                    console.log(splitExp);
+                    break;
+            }
+        } else break;
+    }
+    for (let i = 0; i < splitExp.length; i++) {
+        switch (splitExp[i]) {
+            case '+':
+                calcResult = add(splitExp[i-1], splitExp[i+1]);
+                splitExp.splice(i-1, 3, calcResult);
+                i--;
+                console.log(splitExp);
+                break;
+            case '-':
+                calcResult = subtract(splitExp[i-1], splitExp[i+1]);
+                splitExp.splice(i-1, 3, calcResult);
+                i--;
+                console.log(splitExp);
+                break;
+        }
+    }
+    result_p.textContent = splitExp[splitExp.length-1];
+    stage_p.textContent = 'Calculator by ojaoc';
+    firstTime = true;
+}
+
+function clear() {
+    if (result_p.textContent.length > 1) {
+        result_p.textContent = result_p.textContent.slice(0, -1); 
+    } else {
+        result_p.textContent = '0'; 
+    }
+    if (expression.length > 1) {
+        if (/[+*/-]/g.test(expression) && (expression.length-expression.lastIndexOf(/[+*/-]/g) === 2)) {
+            expression.splice(expression.lastIndexOf(/[+*/-]/g)+1, 1, '0');
+            return;
+        }  
+        expression.pop();
+    } else {
+        
+    }
+    console.log(expression);
+}
+
+function clearAll() {
+
 }
 
 function add(int1, int2) {
