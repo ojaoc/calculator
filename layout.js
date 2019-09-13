@@ -1,3 +1,4 @@
+// Layout Section
 // Get grid and generate a different class for each button
 const numCells = 4 * 5;
 const buttons_div = document.querySelector('.buttons');
@@ -64,3 +65,93 @@ multiply_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB
 minus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
 plus_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB'); 
 equals_button.setAttribute('style', 'background-color: #4B88A2; color: #FFF9FB');
+
+// DOM Event Listeners
+zero_button.addEventListener('click', (e) => pressNumber(e));
+one_button.addEventListener('click', (e) => pressNumber(e));
+two_button.addEventListener('click', (e) => pressNumber(e));
+three_button.addEventListener('click', (e) => pressNumber(e));
+four_button.addEventListener('click', (e) => pressNumber(e));
+five_button.addEventListener('click', (e) => pressNumber(e));
+six_button.addEventListener('click', (e) => pressNumber(e));
+seven_button.addEventListener('click', (e) => pressNumber(e));
+eight_button.addEventListener('click', (e) => pressNumber(e));
+nine_button.addEventListener('click', (e) => pressNumber(e));
+exponent_button.addEventListener('click', (e) => console.log(e.target.innerHTML));
+sqrt_button.addEventListener('click', () => stage('√'));
+clearAll_button.addEventListener('click', () => {
+    while (result_p.childNodes.length > 1) {
+        result_p.removeChild(result_p.lastChild);
+    } 
+    while (stage_p.childNodes.length > 0) {
+        stage_p.removeChild(stage_p.lastChild);
+    }
+    result_p.removeChild(result_p.lastChild);
+    result_p.appendChild(document.createTextNode('0'));
+    stage_p.appendChild(document.createTextNode('Calculator by ojaoc'));
+    operation = null;
+    first = true;
+    changedOperator = null;
+    return values = [];
+});
+clear_button.addEventListener('click', () => {
+    if (result_p.childNodes.length > 1) {
+        result_p.removeChild(result_p.lastChild);
+    } else {
+        result_p.removeChild(result_p.lastChild);
+        result_p.appendChild(document.createTextNode('0'));
+    }
+    let valueToStr = values[values.length-1].toString();
+    if (valueToStr.length < 2) {
+        return values.pop();  
+    } else {
+        return values[values.length-1] = valueToStr.slice(0, -1);
+    }
+});
+divide_button.addEventListener('click', (e) => pressOperator(e));
+multiply_button.addEventListener('click', (e) => pressOperator(e));
+minus_button.addEventListener('click', (e) => pressOperator(e));
+plus_button.addEventListener('click', (e) => pressOperator(e));
+dot_button.addEventListener('click', (e) => pressNumber(e));
+equals_button.addEventListener('click', () => returnResult());
+
+// Logic Section
+// Display Value
+let result = 0; // These variables exist to delete the  
+let stage = false; // initial 0 and text as you press 
+let firstTime = true; // numbers or operators
+let expression = []; 
+function pressNumber(e) {
+    if (result < 1 || stage) result_p.removeChild(result_p.lastChild);
+    result_p.textContent += e.target.textContent;
+    result++;
+    stage = false;
+}
+
+// Stage Value
+function pressOperator(e) {
+    if (firstTime) stage_p.removeChild(stage_p.lastChild);
+    stage_p.textContent += result_p.textContent + e.target.textContent;
+    result_p.textContent = '0';
+    stage = true;
+    firstTime = false;
+}
+
+function returnResult() {
+    const regexOperators = /[+*/-]/g;
+    const regexNumbers = /[-.0-9]+/g;
+    expression.push(stage_p.textContent + result_p.textContent);
+    let splitExp = expression.toString().split(regexOperators);
+    for (let i = 0; i < splitExp.length; i++) {
+        if (splitExp.includes('*') || splitExp.includes('/')) {
+            switch (splitExp[i]) {
+                case '*':
+                    splitExp.splice(i-1, 3, multiply(splitExp[i-1], splitExp[i+1]));
+                    break;
+                case '/':
+                    splitExp.splice(i-1, 3, divide(splitExp[i-1], splitExp[i+1]));
+                    break;
+            }
+        }  
+    }
+}
