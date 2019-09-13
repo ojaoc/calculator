@@ -139,22 +139,51 @@ function pressOperator(e) {
 
 function returnResult() {
     const regexOperators = /[+*/-]/g;
-    const regexNumbers = /[-.0-9]+/g;
+    // const regexNumbers = /[-.0-9]+/g;
     let calcResult = null;
     expression.push(stage_p.textContent + result_p.textContent);
     let splitExp = expression.toString().split(regexOperators);
-    for (let i = 0; i < splitExp.length; i++) {
-        if (splitExp.includes('*') || splitExp.includes('/')) {
-            switch (splitExp[i]) {
-                case '*':
-                    calcResult = multiply(splitExp[i-1], splitExp[i+1]);
-                    splitExp.splice(i-1, 3, calcResult);
-                    break;
-                case '/':
-                    calcResult = divide(splitExp[i-1], splitExp[i+1]);
-                    splitExp.splice(i-1, 3, calcResult);
-                    break;
-            }
-        }  
-    }
+    // for (let i = 0; i < splitExp.length; i++) {
+    //     if (splitExp.includes('*') || splitExp.includes('/')) {
+    //         switch (splitExp[i]) {
+    //             case '*':
+    //                 calcResult = multiply(splitExp[i-1], splitExp[i+1]);
+    //                 splitExp.splice(i-1, 3, calcResult);
+    //                 return;
+    //             case '/':
+    //                 calcResult = divide(splitExp[i-1], splitExp[i+1]);
+    //                 splitExp.splice(i-1, 3, calcResult);
+    //                 return;
+    //         }
+    //     } else break;
+    // }
+    // for (let i = 0; i < splitExp.length; i++) {
+    //     switch (splitExp[i]) {
+    //         case '+':
+    //             calcResult = add(splitExp[i-1], splitExp[i+1]);
+    //             splitExp.splice(i-1, 3, calcResult);
+    //             return;
+    //         case '-':
+    //             calcResult = subtract(splitExp[i-1], splitExp[i+1]);
+    //             splitExp.splice(i-1, 3, calcResult);
+    //             return;
+    //     }
+    // }
+    console.log(splitExp);
+}
+
+function add(int1, int2) {
+    return Number(int1) + Number(int2);
+}
+
+function subtract(int1, int2) {
+    return Number(int1) - Number(int2);
+}
+
+function multiply(int1, int2) {
+    return Number(int1) * Number(int2);
+}
+
+function divide(int1, int2) {
+    return Number(int1) / Number(int2);
 }
