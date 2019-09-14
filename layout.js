@@ -79,21 +79,7 @@ eight_button.addEventListener('click', (e) => pressNumber(e));
 nine_button.addEventListener('click', (e) => pressNumber(e));
 exponent_button.addEventListener('click', (e) => console.log(e.target.innerHTML));
 sqrt_button.addEventListener('click', () => stage('√'));
-clearAll_button.addEventListener('click', () => {
-    while (result_p.childNodes.length > 1) {
-        result_p.removeChild(result_p.lastChild);
-    } 
-    while (stage_p.childNodes.length > 0) {
-        stage_p.removeChild(stage_p.lastChild);
-    }
-    result_p.removeChild(result_p.lastChild);
-    result_p.appendChild(document.createTextNode('0'));
-    stage_p.appendChild(document.createTextNode('Calculator by ojaoc'));
-    operation = null;
-    first = true;
-    changedOperator = null;
-    return values = [];
-});
+clearAll_button.addEventListener('click', () => clearAll());
 clear_button.addEventListener('click', () => clear());
 divide_button.addEventListener('click', (e) => pressOperator(e));
 multiply_button.addEventListener('click', (e) => pressOperator(e));
@@ -178,20 +164,23 @@ function clear() {
     } else {
         result_p.textContent = '0'; 
     }
-    if (expression.length > 1) {
-        if (/[+*/-]/g.test(expression) && (expression.length-expression.lastIndexOf(/[+*/-]/g) === 2)) {
-            expression.splice(expression.lastIndexOf(/[+*/-]/g)+1, 1, '0');
-            return;
-        }  
-        expression.pop();
-    } else {
-        
+    const lastIndex = (arr) => {
+        return Math.max(arr.lastIndexOf('+'), arr.lastIndexOf('-'), arr.lastIndexOf('*'), arr.lastIndexOf('/'));
     }
-    console.log(expression);
+    if (/[+*/-]/g.test(expression) && (expression.length-lastIndex(expression) === 2)) {
+        expression.splice(lastIndex(expression)+1, 1, '0');
+        return;
+    }
+    expression.pop();
 }
 
 function clearAll() {
-
+    result_p.textContent = '0';
+    stage_p.textContent = 'Calculator by ojaoc';
+    result = 0; 
+    stage = false; 
+    firstTime = true; 
+    return expression = [];
 }
 
 function add(int1, int2) {
