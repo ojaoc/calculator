@@ -93,18 +93,33 @@ equals_button.addEventListener('click', () => returnResult());
 let result = 0; // These variables exist to delete the  
 let stage = false; // initial 0 and text as you press 
 let firstTime = true; // numbers or operators
+let nextNumNegative = false;
 let expression = []; 
 function pressNumber(e) {
     if (e.target.textContent === '.' && /[.]/g.test(result_p.textContent)) return; // This makes it so you can only digit one dot per number
-    if (result < 1 || stage) result_p.removeChild(result_p.lastChild);
+    if ((result < 1 || stage) && (/[-]/g.test(expression) === false)) {
+        result_p.removeChild(result_p.lastChild);
+    }
     result_p.textContent += e.target.textContent;
-    expression.push(e.target.textContent);
+    if (nextNumNegative) {
+        expression.push(-Math.abs(e.target.textContent));
+        expression.splice(-2, 1);
+        nextNumNegative = false;
+    } else {
+        expression.push(e.target.textContent);
+    }
     result++;
     stage = false;
 }
 
 // Stage Value
 function pressOperator(e) {
+    if (e.target.textContent === '-' && (result < 1 || stage)) {
+        result_p.textContent = '-';
+        expression.push(e.target.textContent);
+        nextNumNegative = true;
+        return stage = false;
+    }
     if (firstTime) stage_p.removeChild(stage_p.lastChild);
     stage_p.textContent += result_p.textContent + e.target.textContent;
     result_p.textContent = '0';
