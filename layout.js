@@ -95,41 +95,59 @@ let stage = false; // initial 0 and text as you press
 let firstTime = true; // numbers or operators
 let nextNumNegative = false;
 let expression = []; 
+let negativeNumber = [];
 function pressNumber(e) {
     if (e.target.textContent === '.' && /[.]/g.test(result_p.textContent)) return; // This makes it so you can only digit one dot per number
     if ((result < 1 || stage) && (/[-]/g.test(expression) === false)) {
         result_p.removeChild(result_p.lastChild);
     }
     result_p.textContent += e.target.textContent;
-    if (nextNumNegative) {
-        expression.push(-Math.abs(e.target.textContent));
-        expression.splice(-2, 1);
-        nextNumNegative = false;
+    if (nextNumNegative && /[.0-9]/.test(e.target.textContent)) {
+        negativeNumber.push(e.target.textContent);
+        console.log(negativeNumber);
     } else {
         expression.push(e.target.textContent);
     }
     result++;
     stage = false;
+    console.log(expression);
 }
 
 // Stage Value
 function pressOperator(e) {
+    if (stage_p.textContent === 'Calculator by ojaoc') stage_p.removeChild(stage_p.lastChild);
+    if (nextNumNegative) {
+        expression.splice(-1, 1, -Math.abs(negativeNumber.join('')));
+        stage_p.textContent += '(' + result_p.textContent + ')' + e.target.textContent;
+        nextNumNegative = false;
+        result_p.textContent = '0';
+        expression.push(e.target.textContent);
+        stage = true;
+        firstTime = false;
+        console.log(expression);
+        return;
+    }
     if (e.target.textContent === '-' && (result < 1 || stage)) {
         result_p.textContent = '-';
         expression.push(e.target.textContent);
         nextNumNegative = true;
         return stage = false;
     }
-    if (firstTime) stage_p.removeChild(stage_p.lastChild);
     stage_p.textContent += result_p.textContent + e.target.textContent;
     result_p.textContent = '0';
     expression.push(e.target.textContent);
     stage = true;
     firstTime = false;
+    console.log(expression);
 }
 
 function returnResult() {
-    const regex = /[.0-9]+|[+*/-]/g;
+    if (nextNumNegative) {
+        expression.splice(-1, 1, -Math.abs(negativeNumber.join('')));
+        console.log(expression);
+        nextNumNegative = false;
+    }
+    const regex = /[.0-9]+|[-.0-9]+|[+*/-]/g;
     // const regexNumbers = /[-.0-9]+/g;
     let calcResult = null;
     let splitExp = expression.join('').match(regex);
