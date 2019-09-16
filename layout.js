@@ -44,8 +44,8 @@ six_button.textContent = '6';
 seven_button.textContent = '7';
 eight_button.textContent = '8';
 nine_button.textContent = '9';
-exponent_button.textContent = '𝒙^';
-sqrt_button.textContent = '√𝒙';
+// exponent_button.textContent = '𝒙^';
+// sqrt_button.textContent = '√𝒙';
 clearAll_button.textContent = 'C';
 clear_button.textContent = 'CE';
 divide_button.textContent = '/';
@@ -56,8 +56,8 @@ dot_button.textContent = '.';
 equals_button.textContent = '=';
 
 // DOM STYLING
-exponent_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
-sqrt_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
+exponent_button.setAttribute('style', 'background-color: #FFF9FB; color: #FFF9FB; cursor: auto');
+sqrt_button.setAttribute('style', 'background-color: #FFF9FB; color: #FFF9FB; cursor: auto');
 clearAll_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
 clear_button.setAttribute('style', 'background-color: #BB0A21; color: #FFF9FB');
 divide_button.setAttribute('style', 'background-color: #62BBC1; color: #FFF9FB');
@@ -77,8 +77,8 @@ six_button.addEventListener('click', (e) => pressNumber(e));
 seven_button.addEventListener('click', (e) => pressNumber(e));
 eight_button.addEventListener('click', (e) => pressNumber(e));
 nine_button.addEventListener('click', (e) => pressNumber(e));
-exponent_button.addEventListener('click', (e) => console.log(e.target.innerHTML));
-sqrt_button.addEventListener('click', () => stage('√'));
+// exponent_button.addEventListener('click', (e) => );
+// sqrt_button.addEventListener('click', () => );
 clearAll_button.addEventListener('click', () => clearAll());
 clear_button.addEventListener('click', () => clear());
 divide_button.addEventListener('click', (e) => pressOperator(e));
@@ -142,15 +142,15 @@ function pressOperator(e) {
 }
 
 function returnResult() {
-    if (nextNumNegative) {
-        expression.splice(-1, 1, -Math.abs(negativeNumber.join('')));
-        console.log(expression);
-        nextNumNegative = false;
-    }
-    const regex = /[.0-9]+|[-.0-9]+|[+*/-]/g;
+    const regex = /[.0-9]+|[-.0-9]|[+*/-]/g;
     // const regexNumbers = /[-.0-9]+/g;
     let calcResult = null;
     let splitExp = expression.join('').match(regex);
+    console.log(splitExp);
+    if (nextNumNegative) {
+        splitExp.splice(-1, 1, -Math.abs(negativeNumber.join('')));
+        nextNumNegative = false;
+    }
     console.log(splitExp);
     for (let i = 0; i < splitExp.length; i++) {
         if (splitExp.includes('*') || splitExp.includes('/')) {
@@ -202,9 +202,11 @@ function clear() {
     }
     if (/[+*/-]/g.test(expression) && (expression.length-lastIndex(expression) === 2)) {
         expression.splice(lastIndex(expression)+1, 1, '0');
+        console.log(expression);
         return;
     }
     expression.pop();
+    console.log(expression);
 }
 
 function clearAll() {
