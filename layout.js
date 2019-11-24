@@ -1,11 +1,14 @@
 // Layout Section
 // Get grid and generate a different class for each button
 const numCells = 4 * 5;
+const numberSet = {}; // each key will represent the number element
 const buttons_div = document.querySelector('.buttons');
 for (let i = 0; i < numCells; i++) {
     const grid_button = document.createElement('div');
     grid_button.setAttribute('class', `grid_button button_${i}`);
     buttons_div.appendChild(grid_button);
+    
+    numberSet[`button_${i}`] = document.querySelector(`.button_${i}`);
 }
 buttons_div.setAttribute('style', `grid-template-rows: repeat(5, 1fr); grid-template-columns: repeat(4, 1fr);`);
 
