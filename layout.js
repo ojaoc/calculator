@@ -1,3 +1,4 @@
+import Calculator from './calculator.js';
 const CELLS = 4 * 5;
 const BUTTONS_DIV = document.querySelector('.buttons');
 let buttonList = {};
@@ -9,8 +10,8 @@ for (let i = 0; i < CELLS; i++) {
   buttonList[`button_${i}`] = document.querySelector(`.button_${i}`);
 }
 
-const result_p = document.getElementById('result');
-const stage_p = document.getElementById('stage');
+const RESULT_P = document.getElementById('result');
+const STAGE_P = document.getElementById('stage');
 
 buttonList['button_16'].textContent = '0';
 buttonList['button_12'].textContent = '1';
@@ -49,7 +50,52 @@ buttonList['button_3'].setAttribute('style', 'background-color: #BB0A21; color: 
 buttonList['button_0'].setAttribute('style', 'visibility: hidden');
 buttonList['button_1'].setAttribute('style', 'visibility: hidden');
 
+let expression = [];
 
+const PRESS_BUTTON = (selector) => {
+  selector.addEventListener('click', (e) => {
+    switch (e.target.textContent) {
+      case 'C':
+        while (RESULT_P.lastChild) {
+          RESULT_P.removeChild(RESULT_P.lastChild);
+        }
+      break;  
+      case 'CE':
+        RESULT_P.removeChild(RESULT_P.lastChild);
+      break;  
+      case '=':
+        let joinNumbersExpression = expression
+          .join('')
+          .split(/[^0-9]/g);
 
+        let n = 0;
+        let counter = 0;
+        for (let i = 0; i < expression.length; i++) {
+          if (/[^0-9]/g.test(expression[i])) {
+            n++;
+            joinNumbersExpression.splice(n+counter, 0, expression[i]);
+            counter++;
+          }
+        }
+        joinNumbersExpression.forEach(function (element, index, array) {
+          if (/\d+/g.test(element)) {
+            array[index] = Number(element);
+          }
+        });
+        console.log(joinNumbersExpression);
 
+        let calculate = new Calculator(...joinNumbersExpression);
+        RESULT_P.textContent = calculate.result();
+      break;
+      default:
+        let textNode = document.createTextNode(e.target.textContent);
+        RESULT_P.appendChild(textNode);
+        expression.push(e.target.textContent);
+    }
+    console.log(expression);
+  })
+}
 
+for (let i = 0; i < BUTTONS_DIV.childElementCount; i++) {
+  PRESS_BUTTON(buttonList[`button_${i}`]);
+}

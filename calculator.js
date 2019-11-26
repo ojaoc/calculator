@@ -1,4 +1,4 @@
-class Calculator {
+export default class Calculator {
   constructor(...expression) {
     console.log(expression);
     /* Now we will separate operators
