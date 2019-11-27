@@ -64,25 +64,32 @@ const PRESS_BUTTON = (selector) => {
         RESULT_P.removeChild(RESULT_P.lastChild);
       break;  
       case '=':
+        while (expression.includes('-') && (expression[0] === '-' || /[^-0-9]/g.test(expression[expression.indexOf('-') - 1]))) {
+          expression.splice(expression.indexOf('-'), 2, -Math.abs(expression[expression.indexOf('-') + 1])); 
+        }
+        console.log(expression);
+
         let joinNumbersExpression = expression
           .join('')
-          .split(/[^0-9]/g);
-
+          .split(/[^-0-9]/g);
+        console.log(joinNumbersExpression);
         let n = 0;
         let counter = 0;
         for (let i = 0; i < expression.length; i++) {
-          if (/[^0-9]/g.test(expression[i])) {
+          if (/[^-0-9]/g.test(expression[i])) {
+            console.log(expression[i]);
             n++;
             joinNumbersExpression.splice(n+counter, 0, expression[i]);
             counter++;
           }
         }
+        console.log(expression);
+        console.log(joinNumbersExpression);
         joinNumbersExpression.forEach(function (element, index, array) {
           if (/\d+/g.test(element)) {
             array[index] = Number(element);
           }
         });
-        console.log(joinNumbersExpression);
 
         let calculate = new Calculator(...joinNumbersExpression);
         RESULT_P.textContent = calculate.result();
