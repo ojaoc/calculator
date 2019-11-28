@@ -1,6 +1,6 @@
 # Calculator
 
-Open-source project calculator for the browser
+Open-source calculator project for the browser
 
 ## Installation
 
